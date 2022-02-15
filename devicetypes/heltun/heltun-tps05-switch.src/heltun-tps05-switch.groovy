@@ -94,19 +94,19 @@ private configParam() {
 def zwaveEvent(physicalgraph.zwave.commands.sensormultilevelv5.SensorMultilevelReport cmd) {
 	def map = [:]
 	def roomTemperature = 1
-	def himidity = 5
+	def humidity = 5
 	def illuminance = 3
-	def locaScale = getTemperatureScale() //HubScale
+	def localScale = getTemperatureScale() //HubScale
 	def deviceScale = (cmd.scale == 1) ? "F" : "C" //DeviceScale
 	def child = childDevices?.find {channelNumber(it.deviceNetworkId) == 1 }
 	if (roomTemperature == cmd.sensorType) {
 		def deviceTemp = cmd.scaledSensorValue
-		def scaledTemp = (deviceScale == locaScale) ? deviceTemp : (deviceScale == "F" ? roundC(fahrenheitToCelsius(deviceTemp)) : celsiusToFahrenheit(deviceTemp).toDouble().round(0).toInteger())
+		def scaledTemp = (deviceScale == localScale) ? deviceTemp : (deviceScale == "F" ? roundC(fahrenheitToCelsius(deviceTemp)) : celsiusToFahrenheit(deviceTemp).toDouble().round(0).toInteger())
 		map.name = "temperature"
 		map.value = scaledTemp
-		map.unit = locaScale
+		map.unit = localScale
 		sendEvent(map)
-	} else if (himidity == cmd.sensorType) {
+	} else if (humidity == cmd.sensorType) {
 		map.name = "humidity"
 		map.value = cmd.scaledSensorValue.toInteger()
 		map.unit = "%"
