@@ -93,8 +93,8 @@ private configParam() {
 
 def zwaveEvent(physicalgraph.zwave.commands.sensormultilevelv5.SensorMultilevelReport cmd) {
 	def map = [:]
-	def humidity = 5
 	def roomTemperature = 1
+	def humidity = 5
 	def illuminance = 3
 	def localScale = getTemperatureScale() //HubScale
 	def deviceScale = (cmd.scale == 1) ? "F" : "C" //DeviceScale
